@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Box,
   Chip,
   FormControl,
   FormControlProps,
@@ -12,7 +13,7 @@ import { HighlightOffTwoTone } from "@material-ui/icons";
 import {
   Controller,
   UseControllerProps,
-  UseFormRegister,
+  UseFormGetValues,
   UseFormSetValue
 } from "react-hook-form";
 
@@ -37,16 +38,19 @@ const useStyles = makeStyles((theme) =>
     chipSublabel: {
       lineHeight: "1",
       fontSize: "0.6rem"
+    },
+    selectInput: {
+      minWidth: "300px"
     }
   })
 );
 
 type FormSelectorProps<T> = {
   label: string;
-  register: UseFormRegister<any>;
   required: boolean;
   handleChange?: (value: T[]) => void;
   setValue: UseFormSetValue<any>;
+  getValues: UseFormGetValues<any>;
   children: React.ReactNode;
 };
 
@@ -55,12 +59,13 @@ type MultiSelectorProps<T> = FormControlProps &
   UseControllerProps;
 
 function MultiSelector<T>({
+  name,
   label,
   control,
-  register,
   required,
   defaultValue,
   setValue,
+  getValues,
   children,
   ...rest
 }: MultiSelectorProps<T>) {
@@ -68,13 +73,23 @@ function MultiSelector<T>({
 
   const handleDelete = (event: any) => () => {
     const name = event as Name;
+    let names = getValues("Names");
     console.log(`Deleting: ${name.last}`);
+    console.log(`List of values: ${JSON.stringify(names)}`);
+    names = names.filter((n: Name) => n.id !== name.id);
+    console.log(`List of values: ${JSON.stringify(names)}`);
+    setValue("Names", names);
   };
 
   const renderChip = (value: Array<Name>) => (
-    <>
+    <Box
+      flexDirection="row"
+      flexWrap="wrap"
+      display="flex"
+      alignItems="flex-start"
+    >
       {value.map((name) => (
-        <Typography component="div" key={name.id}>
+        <Box key={name.id} p={0.25}>
           <Chip
             className={classes.chip}
             label={
@@ -99,23 +114,23 @@ function MultiSelector<T>({
             onDelete={handleDelete(name)}
             onMouseDown={(e) => e.stopPropagation()}
           />
-        </Typography>
+        </Box>
       ))}
-    </>
+    </Box>
   );
 
   return (
     <div>
-      <FormControl fullWidth {...rest}>
+      <FormControl {...rest}>
         <InputLabel id="test-mutiple-chip-label">{label}</InputLabel>
         <Controller
-          name="selector"
+          name={name}
           control={control}
           defaultValue={defaultValue}
           render={({ field: { onChange, value } }) => (
             <Select
+              className={classes.selectInput}
               multiple
-              {...register(label, { required })}
               label={label}
               value={value}
               renderValue={(value) => renderChip(value as Name[])}
