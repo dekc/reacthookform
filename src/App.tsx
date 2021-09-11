@@ -1,13 +1,17 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import MultiSelector from "./MultiSelector";
-import { Box, Button, Grid, MenuItem, Typography } from "@material-ui/core";
+import { Box, Button, MenuItem, Typography } from "@material-ui/core";
 
 import "./styles.css";
 import { names } from "./data";
 
+const defaultNames: any = [];
+defaultNames.push(names[0]);
+defaultNames.push(names[9]);
+
 export default function App() {
-  const { handleSubmit, control, setValue, getValues, formState } = useForm({
+  const { handleSubmit, control, setValue, getValues } = useForm({
     mode: "onChange"
   });
 
@@ -31,7 +35,7 @@ export default function App() {
               control={control}
               setValue={setValue}
               getValues={getValues}
-              defaultValue={[]}
+              defaultValue={defaultNames}
               required
               variant="outlined"
               fullWidth
