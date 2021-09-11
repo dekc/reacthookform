@@ -1,20 +1,13 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import MultiSelector from "./MultiSelector";
-import { Button, Grid, MenuItem, Typography } from "@material-ui/core";
+import { Box, Button, Grid, MenuItem, Typography } from "@material-ui/core";
 
 import "./styles.css";
 import { names } from "./data";
 
 export default function App() {
-  const {
-    register,
-    handleSubmit,
-    control,
-    setValue,
-    getValues,
-    formState
-  } = useForm({
+  const { handleSubmit, control, setValue, getValues, formState } = useForm({
     mode: "onChange"
   });
 
@@ -26,21 +19,22 @@ export default function App() {
 
   return (
     <div className="App">
-      <h1>MultiSelector </h1>
+      <h1>MultiSelector with Chips </h1>
       <h2>Using React-Hook-Form, Material-UI</h2>
-
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Grid container direction="column" justifyContent="center" spacing={3}>
-          <Grid item xs={4}>
+      <Box display="flex" justifyContent="center" flexWrap="nowrap">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {/* <Grid container direction="row" justifyContent="center" spacing={1}> */}
+          <Box m width={2 / 3}>
             <MultiSelector
               name="Names"
               label="Names"
               control={control}
-              register={register}
               setValue={setValue}
+              getValues={getValues}
               defaultValue={[]}
               required
               variant="outlined"
+              fullWidth
             >
               {names.map((name) => (
                 <MenuItem key={name.id} value={name as any}>
@@ -55,21 +49,22 @@ export default function App() {
                 </MenuItem>
               ))}
             </MultiSelector>
-            <Grid container direction="row" alignContent="space-between">
-              <Grid item xs={6}>
-                <Button variant="outlined" onClick={onCancel}>
-                  Cancel
-                </Button>
-              </Grid>
-              <Grid item xs={6}>
-                <Button type="submit" color="primary" variant="contained">
-                  Submit
-                </Button>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
-      </form>
+          </Box>
+          <Box display="flex" justifyContent="center">
+            <Box m>
+              <Button variant="outlined" onClick={onCancel}>
+                Cancel
+              </Button>
+            </Box>
+            <Box m>
+              <Button type="submit" color="primary" variant="contained">
+                Submit
+              </Button>
+            </Box>
+          </Box>
+          {/* </Grid> */}
+        </form>
+      </Box>
     </div>
   );
 }

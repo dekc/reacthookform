@@ -12,7 +12,7 @@ const names: Name[] = [
   { id: 5, first: "Omar", last: "Alexander" },
   { id: 6, first: "Carlos", last: "Abbott" },
   { id: 7, first: "Miriam", last: "Wagner" },
-  { id: 8, first: "Bradley", last: "Wilkerson" },
+  { id: 8, first: "Bradley", last: "WilkersonExtraLongAndSmooth" },
   { id: 9, first: "Virginia", last: "Andrews" },
   { id: 10, first: "Kelly", last: "Snyder" }
 ];
