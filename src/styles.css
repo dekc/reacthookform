@@ -2,3 +2,12 @@
   font-family: sans-serif;
   text-align: center;
 }
+
+.centered {
+  min-width: 50%;
+  max-width: 50%;
+}
+
+pre {
+  text-align: left;
+}

@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) =>
       fontSize: "0.6rem"
     },
     selectInput: {
-      minWidth: "300px"
+      minWidth: "100%"
     }
   })
 );
