@@ -1,13 +1,26 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import MultiSelector from "./MultiSelector";
-import { Box, Button, Grid, MenuItem, Typography } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  MenuItem,
+  TextField,
+  Typography
+} from "@material-ui/core";
 
 import "./styles.css";
 import { names, Name } from "./data";
 
 export default function App() {
-  const { handleSubmit, control, setValue, getValues, formState } = useForm({
+  const {
+    handleSubmit,
+    control,
+    setValue,
+    getValues,
+    register,
+    formState: { errors }
+  } = useForm({
     mode: "onChange"
   });
 
@@ -27,6 +40,23 @@ export default function App() {
 
       <Box display="flex" justifyContent="center">
         <Box className="centered">
+          <Box m={1}>
+            <TextField
+              label="Description"
+              variant="outlined"
+              multiline
+              fullWidth
+              {...register("Description", {
+                required: "Description cannot be empty"
+              })}
+            />
+
+            {errors.Description?.type === "required" && (
+              <Typography color="secondary">
+                {errors.Description.message}
+              </Typography>
+            )}
+          </Box>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Box m={1}>
               <MultiSelector
