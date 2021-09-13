@@ -1,23 +1,9 @@
-import React from "react";
-import {
-  FormControl,
-  FormControlProps,
-  ListSubheader,
-  TextField,
-  Typography,
-  useMediaQuery
-} from "@material-ui/core";
-import Autocomplete, {
-  AutocompleteRenderGroupParams
-} from "@material-ui/lab/Autocomplete";
-import { useTheme, makeStyles } from "@material-ui/core/styles";
-import {
-  Controller,
-  UseControllerProps,
-  UseFormGetValues,
-  UseFormSetValue
-} from "react-hook-form";
-import { VariableSizeList, ListChildComponentProps } from "react-window";
+import React from 'react';
+import { FormControl, FormControlProps, ListSubheader, TextField, Typography, useMediaQuery } from '@material-ui/core';
+import Autocomplete, { AutocompleteRenderGroupParams } from '@material-ui/lab/Autocomplete';
+import { useTheme, makeStyles } from '@material-ui/core/styles';
+import { Controller, UseControllerProps, UseFormGetValues, UseFormSetValue } from 'react-hook-form';
+import { VariableSizeList, ListChildComponentProps } from 'react-window';
 
 type FormSelectorProps<T> = {
   label: string;
@@ -28,9 +14,7 @@ type FormSelectorProps<T> = {
   getValues: UseFormGetValues<any>;
 };
 
-type AutoCompleterProps<T> = FormControlProps &
-  FormSelectorProps<T> &
-  UseControllerProps;
+type AutoCompleterProps<T> = FormControlProps & FormSelectorProps<T> & UseControllerProps;
 
 const LISTBOX_PADDING = 8; // px
 
@@ -62,58 +46,56 @@ function useResetCache(data: any) {
 }
 
 // Adapter for react-window
-const ListboxComponent = React.forwardRef<HTMLDivElement>(
-  function ListboxComponent(props, ref) {
-    const { children, ...other } = props;
-    const itemData = React.Children.toArray(children);
-    const theme = useTheme();
-    const smUp = useMediaQuery(theme.breakpoints.up("sm"), { noSsr: true });
-    const itemCount = itemData.length;
-    const itemSize = smUp ? 36 : 48;
+const ListboxComponent = React.forwardRef<HTMLDivElement>(function ListboxComponent(props, ref) {
+  const { children, ...other } = props;
+  const itemData = React.Children.toArray(children);
+  const theme = useTheme();
+  const smUp = useMediaQuery(theme.breakpoints.up('sm'), { noSsr: true });
+  const itemCount = itemData.length;
+  const itemSize = smUp ? 36 : 48;
 
-    const getChildSize = (child: React.ReactNode) => {
-      if (React.isValidElement(child) && child.type === ListSubheader) {
-        return 48;
-      }
+  const getChildSize = (child: React.ReactNode) => {
+    if (React.isValidElement(child) && child.type === ListSubheader) {
+      return 48;
+    }
 
-      return itemSize;
-    };
+    return itemSize;
+  };
 
-    const getHeight = () => {
-      if (itemCount > 8) {
-        return 8 * itemSize;
-      }
-      return itemData.map(getChildSize).reduce((a, b) => a + b, 0);
-    };
+  const getHeight = () => {
+    if (itemCount > 8) {
+      return 8 * itemSize;
+    }
+    return itemData.map(getChildSize).reduce((a, b) => a + b, 0);
+  };
 
-    const gridRef = useResetCache(itemCount);
+  const gridRef = useResetCache(itemCount);
 
-    return (
-      <div ref={ref}>
-        <OuterElementContext.Provider value={other}>
-          <VariableSizeList
-            itemData={itemData}
-            height={getHeight() + 2 * LISTBOX_PADDING}
-            width="100%"
-            ref={gridRef}
-            outerElementType={OuterElementType}
-            innerElementType="ul"
-            itemSize={(index: number) => getChildSize(itemData[index])}
-            overscanCount={5}
-            itemCount={itemCount}
-          >
-            {renderRow}
-          </VariableSizeList>
-        </OuterElementContext.Provider>
-      </div>
-    );
-  }
-);
+  return (
+    <div ref={ref}>
+      <OuterElementContext.Provider value={other}>
+        <VariableSizeList
+          itemData={itemData}
+          height={getHeight() + 2 * LISTBOX_PADDING}
+          width="100%"
+          ref={gridRef}
+          outerElementType={OuterElementType}
+          innerElementType="ul"
+          itemSize={(index: number) => getChildSize(itemData[index])}
+          overscanCount={5}
+          itemCount={itemCount}
+        >
+          {renderRow}
+        </VariableSizeList>
+      </OuterElementContext.Provider>
+    </div>
+  );
+});
 
 const useStyles = makeStyles({
   listbox: {
-    boxSizing: "border-box",
-    "& ul": {
+    boxSizing: 'border-box',
+    '& ul': {
       padding: 0,
       margin: 0
     }
@@ -137,7 +119,7 @@ function AutoCompleter<T>({
   setValue,
   getValues,
   ...rest
-}: AutoCompleterProps<T>) {
+}: AutoCompleterProps<T>): JSX.Element {
   const classes = useStyles();
 
   return (
@@ -151,30 +133,18 @@ function AutoCompleter<T>({
             <Autocomplete
               id="virtualize-demo"
               value={value}
-              onChange={(e: React.ChangeEvent<{}>, value: unknown) => {
+              onChange={(e: React.ChangeEvent<Record<string, unknown>>, value: unknown) => {
                 onChange(value);
-                setValue("Places", value);
+                setValue('Places', value);
               }}
               disableListWrap
               classes={classes}
-              ListboxComponent={
-                ListboxComponent as React.ComponentType<
-                  React.HTMLAttributes<HTMLElement>
-                >
-              }
+              ListboxComponent={ListboxComponent as React.ComponentType<React.HTMLAttributes<HTMLElement>>}
               renderGroup={renderGroup}
               options={options}
               groupBy={(option) => option[0].toUpperCase()}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  variant="outlined"
-                  label="10,000 options"
-                />
-              )}
-              renderOption={(option) => (
-                <Typography noWrap>{option}</Typography>
-              )}
+              renderInput={(params) => <TextField {...params} variant="outlined" label="10,000 options" />}
+              renderOption={(option) => <Typography noWrap>{option}</Typography>}
             />
           )}
         />
