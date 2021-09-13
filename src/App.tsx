@@ -1,24 +1,24 @@
-import React from "react";
-import { useForm } from "react-hook-form";
-import MultiSelector from "./MultiSelector";
-import { Box, Button, Grid, MenuItem, Typography } from "@material-ui/core";
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import MultiSelector from './MultiSelector';
+import { Box, Button, Grid, MenuItem, Typography } from '@material-ui/core';
 
-import "./styles.css";
-import { names, Name } from "./data";
+import './styles.css';
+import { names, Name } from './data';
 
 export default function App() {
   const { handleSubmit, control, setValue, getValues, formState } = useForm({
-    mode: "onChange"
+    mode: 'onChange'
   });
 
   const [formData, setFormData] = React.useState<Name[]>([]);
 
   const onSubmit = (data: any) => {
-    console.log("Submit", data);
+    console.log('Submit', data);
     setFormData(data);
   };
 
-  const onCancel = () => {};
+  const onCancel = () => console.log('Cancelling');
 
   return (
     <div className="App">
