@@ -1,6 +1,5 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import MultiSelector from "./MultiSelector";
 import {
   Box,
   Button,
@@ -9,8 +8,10 @@ import {
   Typography
 } from "@material-ui/core";
 
+import MultiSelector from "./MultiSelector";
+import AutoCompleter from "./AutoCompleter";
 import "./styles.css";
-import { names, Name } from "./data";
+import { names, Name, OPTIONS } from "./data";
 
 export default function App() {
   const {
@@ -83,6 +84,20 @@ export default function App() {
                   </MenuItem>
                 ))}
               </MultiSelector>
+            </Box>
+            <Box m={1}>
+              <AutoCompleter
+                name="Places"
+                label="Places"
+                control={control}
+                setValue={setValue}
+                getValues={getValues}
+                options={OPTIONS}
+                defaultValue={OPTIONS[10]}
+                required
+                variant="outlined"
+                fullWidth
+              />
             </Box>
             <Box display="flex" justifyContent="center">
               <Box m={1}>
