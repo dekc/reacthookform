@@ -1,11 +1,17 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import { Box, Button, MenuItem, TextField, Typography } from '@material-ui/core';
+import React from "react";
+import { useForm } from "react-hook-form";
+import {
+  Box,
+  Button,
+  MenuItem,
+  TextField,
+  Typography
+} from "@material-ui/core";
 
-import MultiSelector from './MultiSelector';
-import AutoCompleter from './AutoCompleter';
-import './styles.css';
-import { names, Name, OPTIONS } from './data';
+import MultiSelector from "./MultiSelector";
+import AutoCompleter from "./AutoCompleter";
+import "./styles.css";
+import { names, Name, OPTIONS } from "./data";
 
 export default function App() {
   const {
@@ -16,17 +22,17 @@ export default function App() {
     register,
     formState: { errors }
   } = useForm({
-    mode: 'onChange'
+    mode: "onChange"
   });
 
   const [formData, setFormData] = React.useState<Name[]>([]);
 
   const onSubmit = (data: any) => {
-    console.log('Submit', data);
+    console.log("Submit", data);
     setFormData(data);
   };
 
-  const onCancel = () => console.log('Cancelling');
+  const onCancel = () => console.log("Cancelling");
 
   return (
     <div className="App">
@@ -41,13 +47,15 @@ export default function App() {
               variant="outlined"
               multiline
               fullWidth
-              {...register('Description', {
-                required: 'Description cannot be empty'
+              {...register("Description", {
+                required: "Description cannot be empty"
               })}
             />
 
-            {errors.Description?.type === 'required' && (
-              <Typography color="secondary">{errors.Description.message}</Typography>
+            {errors.Description?.type === "required" && (
+              <Typography color="secondary">
+                {errors.Description.message}
+              </Typography>
             )}
           </Box>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -85,11 +93,16 @@ export default function App() {
                 setValue={setValue}
                 getValues={getValues}
                 options={OPTIONS}
-                defaultValue={OPTIONS[10]}
-                required
+                rules={{ required: "A place must be selected" }}
+                defaultValue={undefined}
                 variant="outlined"
                 fullWidth
               />
+              {errors.Places?.type === "required" && (
+                <Typography color="secondary">
+                  {errors.Places.message}
+                </Typography>
+              )}
             </Box>
             <Box display="flex" justifyContent="center">
               <Box m={1}>
@@ -105,9 +118,7 @@ export default function App() {
             </Box>
           </form>
           <Box mt={4} display="flex" justifyContent="center">
-            <p>
-              <pre>{JSON.stringify(formData, undefined, 2)}</pre>
-            </p>
+            <pre>{JSON.stringify(formData, undefined, 2)}</pre>
           </Box>
         </Box>
       </Box>
